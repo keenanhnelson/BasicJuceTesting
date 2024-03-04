@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-DataTransferAudioProcessorEditor::DataTransferAudioProcessorEditor (DataTransferAudioProcessor& p)
+BasicJuceTestingAudioProcessorEditor::BasicJuceTestingAudioProcessorEditor (BasicJuceTestingAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -19,12 +19,12 @@ DataTransferAudioProcessorEditor::DataTransferAudioProcessorEditor (DataTransfer
     startTimer(500);
 }
 
-DataTransferAudioProcessorEditor::~DataTransferAudioProcessorEditor()
+BasicJuceTestingAudioProcessorEditor::~BasicJuceTestingAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void DataTransferAudioProcessorEditor::paint (juce::Graphics& g)
+void BasicJuceTestingAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -61,16 +61,16 @@ void DataTransferAudioProcessorEditor::paint (juce::Graphics& g)
     g.strokePath(waveform, juce::PathStrokeType(1));
 }
 
-void DataTransferAudioProcessorEditor::resized()
+void BasicJuceTestingAudioProcessorEditor::resized()
 {
 
 }
 
-void DataTransferAudioProcessorEditor::timerCallback() {
+void BasicJuceTestingAudioProcessorEditor::timerCallback() {
     handlePlaybackDetection();
 }
 
-void DataTransferAudioProcessorEditor::handlePlaybackDetection() {
+void BasicJuceTestingAudioProcessorEditor::handlePlaybackDetection() {
     if (audioProcessor.processBlockPreviouslyCalled) {
         if (audioProcessor.processBlockCalled) {
             //Is currently playing
