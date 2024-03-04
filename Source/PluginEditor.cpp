@@ -16,6 +16,7 @@ DataTransferAudioProcessorEditor::DataTransferAudioProcessorEditor (DataTransfer
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
+    startTimer(500);
 }
 
 DataTransferAudioProcessorEditor::~DataTransferAudioProcessorEditor()
@@ -52,4 +53,31 @@ void DataTransferAudioProcessorEditor::paint (juce::Graphics& g)
 void DataTransferAudioProcessorEditor::resized()
 {
 
+}
+
+void DataTransferAudioProcessorEditor::timerCallback() {
+    handlePlaybackDetection();
+}
+
+void DataTransferAudioProcessorEditor::handlePlaybackDetection() {
+    if (audioProcessor.processBlockPreviouslyCalled) {
+        if (audioProcessor.processBlockCalled) {
+            //Is currently playing
+            audioProcessor.processBlockPreviouslyCalled = true;
+            audioProcessor.processBlockCalled = false;//Reset to false. Should be set to true by processBlock if play is still happening
+        }
+        else {
+            //Play has stopped
+            audioProcessor.processBlockPreviouslyCalled = false;
+            audioProcessor.processingAudio = false;
+            repaint();//This should paint the new values to the screen
+        }
+    }
+    else {
+        if (audioProcessor.processBlockCalled) {
+            //Play just started
+            audioProcessor.processBlockPreviouslyCalled = true;
+            audioProcessor.processBlockCalled = false;//Reset to false. Should be set to true by processBlock if play is still happening
+        }
+    }
 }

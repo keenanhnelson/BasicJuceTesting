@@ -60,6 +60,9 @@ public:
     static const int scopeDataSize = 512;
     static float scopeData[scopeDataSize];
 
+    static bool processBlockCalled;
+    static bool processBlockPreviouslyCalled;
+    static bool processingAudio;
 
 private:
 

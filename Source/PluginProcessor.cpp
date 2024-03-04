@@ -134,7 +134,7 @@ bool DataTransferAudioProcessor::isBusesLayoutSupported (const BusesLayout& layo
 void DataTransferAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-
+    processBlockCalled = true;
     auto* channelData = buffer.getReadPointer(0);
 
     for (int i = 0; i < 20; i++) {
@@ -189,3 +189,6 @@ int DataTransferAudioProcessor::getScopeDataSize() {
 
 int DataTransferAudioProcessor::instances = 0;
 float DataTransferAudioProcessor::scopeData[scopeDataSize] = { 0 };
+bool DataTransferAudioProcessor::processBlockCalled = false;
+bool DataTransferAudioProcessor::processBlockPreviouslyCalled = false;
+bool DataTransferAudioProcessor::processingAudio = false;

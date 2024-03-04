@@ -14,7 +14,7 @@
 //==============================================================================
 /**
 */
-class DataTransferAudioProcessorEditor  : public juce::AudioProcessorEditor
+class DataTransferAudioProcessorEditor  : public juce::AudioProcessorEditor, private juce::Timer
 {
 public:
     DataTransferAudioProcessorEditor (DataTransferAudioProcessor&);
@@ -23,6 +23,9 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+
+    void timerCallback();
+    void handlePlaybackDetection();
 
 private:
     // This reference is provided as a quick way for your editor to
