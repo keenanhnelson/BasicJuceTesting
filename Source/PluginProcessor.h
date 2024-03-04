@@ -59,6 +59,7 @@ public:
     int id = 0;
     static const int scopeDataSize = 512;
     static float scopeData[scopeDataSize];
+    static int scopeDataIndex;
 
     static bool processBlockCalled;
     static bool processBlockPreviouslyCalled;

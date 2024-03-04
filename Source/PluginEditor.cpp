@@ -39,8 +39,8 @@ void DataTransferAudioProcessorEditor::paint (juce::Graphics& g)
 
     int scopeSize = audioProcessor.getScopeDataSize();
     const float* scopeData = audioProcessor.getScopeData();
-
-    for (int i = 0; i < 20; ++i)
+    int numSamplesToDisplay = 40;
+    for (int i = 0; i < numSamplesToDisplay; ++i)
     {
         // Convert each float value to a string
         auto valueString = std::to_string(scopeData[i]); // Change '4' to the desired number of decimal places
@@ -48,6 +48,17 @@ void DataTransferAudioProcessorEditor::paint (juce::Graphics& g)
         // Draw the string at appropriate positions
         g.drawText(valueString, xPosition, yPosition + i * lineHeight, getWidth(), lineHeight, juce::Justification::left);
     }
+
+    float offsetX = 100;
+    float offsetY = 100;
+    float scaleX = 5;
+    float scaleY = -100;
+    juce::Path waveform;
+    waveform.startNewSubPath(offsetX, offsetY+(scopeData[0]*scaleY));
+    for (int i = 1; i < numSamplesToDisplay; i++) {
+        waveform.lineTo(offsetX + (i * scaleX), offsetY + (scopeData[i] * scaleY));
+    }
+    g.strokePath(waveform, juce::PathStrokeType(1));
 }
 
 void DataTransferAudioProcessorEditor::resized()
@@ -70,6 +81,7 @@ void DataTransferAudioProcessorEditor::handlePlaybackDetection() {
             //Play has stopped
             audioProcessor.processBlockPreviouslyCalled = false;
             audioProcessor.processingAudio = false;
+            audioProcessor.scopeDataIndex = 0;
             repaint();//This should paint the new values to the screen
         }
     }

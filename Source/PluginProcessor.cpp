@@ -137,8 +137,8 @@ void DataTransferAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     processBlockCalled = true;
     auto* channelData = buffer.getReadPointer(0);
 
-    for (int i = 0; i < 20; i++) {
-        scopeData[i] = channelData[i];
+    for (int i = 0; i < buffer.getNumSamples() && scopeDataIndex < scopeDataSize; i++, scopeDataIndex++) {
+        scopeData[scopeDataIndex] = channelData[i];
     }
 
     volatile int a = 0;
@@ -189,6 +189,7 @@ int DataTransferAudioProcessor::getScopeDataSize() {
 
 int DataTransferAudioProcessor::instances = 0;
 float DataTransferAudioProcessor::scopeData[scopeDataSize] = { 0 };
+int DataTransferAudioProcessor::scopeDataIndex = 0;
 bool DataTransferAudioProcessor::processBlockCalled = false;
 bool DataTransferAudioProcessor::processBlockPreviouslyCalled = false;
 bool DataTransferAudioProcessor::processingAudio = false;
